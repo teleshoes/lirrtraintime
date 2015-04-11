@@ -17,7 +17,7 @@ import signal
 import sys
 import subprocess
 
-LIRRTRAINTIME_BIN = "/opt/lirrtraintime/bin/lirrtraintime.pl"
+LIRRTRAINTIME_BIN = "/opt/lirrtraintime/bin/lirr_train_time"
 QML_DIR = "/opt/lirrtraintime/qml"
 
 PLATFORM_OTHER = 0
@@ -256,7 +256,7 @@ class Controller(QObject):
 
   @Slot()
   def search(self):
-    cmd = ["lirr_train_time", "-b", self.curFrom, self.curTo]
+    cmd = [LIRRTRAINTIME_BIN, "-b", self.curFrom, self.curTo]
     time = self.curTime
     date = self.curDate
     if time != None and date == None:
