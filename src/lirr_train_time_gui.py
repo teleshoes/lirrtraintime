@@ -235,27 +235,24 @@ class Controller(QObject):
   def setupStations(self):
     self.stationModel.setItems(self.stationManager.getStations())
 
-  @Slot(str, QObject, QObject)
-  def stationSelected(self, fieldName, station, displayLabel):
+  @Slot(str, QObject)
+  def stationSelected(self, fieldName, station):
     if fieldName == "from":
       self.curFrom = station.StationId
     elif fieldName == "to":
       self.curTo = station.StationId
-    self.setLabelText(displayLabel)
 
-  @Slot(str, QObject)
-  def timeSelected(self, time, displayLabel):
+  @Slot(str)
+  def timeSelected(self, time):
     self.curTime = time
     if self.curTime == "none":
       self.curTime = None
-    self.setLabelText(displayLabel)
 
-  @Slot(str, QObject)
-  def dateSelected(self, date, displayLabel):
+  @Slot(str)
+  def dateSelected(self, date):
     self.curDate = date
     if self.curDate == "none":
       self.curDate = None
-    self.setLabelText(displayLabel)
 
   @Slot()
   def search(self):
