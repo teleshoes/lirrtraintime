@@ -23,7 +23,7 @@ Rectangle {
     }
     Btn {
       text: "SEARCH"
-      width: 100
+      width: parent.width
       height: 40
       onClicked: { controller.search() }
     }
