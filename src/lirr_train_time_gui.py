@@ -246,13 +246,15 @@ class Controller(QObject):
   @Slot(str, QObject)
   def timeSelected(self, time, displayLabel):
     self.curTime = time
-    if self.curDate == None:
-      self.curDate = "next"
+    if self.curTime == "none":
+      self.curTime = None
     self.setLabelText(displayLabel)
 
   @Slot(str, QObject)
   def dateSelected(self, date, displayLabel):
     self.curDate = date
+    if self.curDate == "none":
+      self.curDate = None
     self.setLabelText(displayLabel)
 
   @Slot()
