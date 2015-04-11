@@ -14,6 +14,7 @@ Rectangle {
     height: parent.height
     width: parent.width
     Text{
+      text: controller.formatLabelText()
       function updateText(){
         text = controller.formatLabelText()
       }
