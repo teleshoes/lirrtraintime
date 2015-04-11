@@ -259,10 +259,14 @@ class Controller(QObject):
 
   @Slot()
   def search(self):
-    cmd = ["lirr_train_time", "-b", self.curTo, self.curFrom]
-    if self.curDate != None:
-      cmd += self.curDate
-      cmd += self.curTime
+    cmd = ["lirr_train_time", "-b", self.curFrom, self.curTo]
+    time = self.curTime
+    date = self.curDate
+    if time != None and date == None:
+      date = "next"
+    if date != None:
+      cmd.append(date)
+      cmd.append(time)
     self.runCommand(cmd)
 
   def setLabelText(self, displayLabel):
