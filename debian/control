@@ -6,6 +6,6 @@ Standards-Version: 3.8.4
 
 Package: lirrtraintime
 Architecture: all
-Depends: python-pyside
+Depends: python-pyside, qtbigtext
 Description: LIRR Train Time
   Simple LIRR Train Time QML app
