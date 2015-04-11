@@ -21,43 +21,73 @@ Rectangle {
       height: 50
       text: "<select to/from>"
     }
-    Text {
-      text: "FROM:"
-      height: 20
-    }
-    StationSelector{
-      fieldName: "from"
-      height: 100
-      width: parent.width
-    }
-    Text {
-      text: "TO:"
-      height: 20
-    }
-    StationSelector{
-      fieldName: "to"
-      height: 100
-      width: parent.width
-    }
-    Text {
-      text: "TIME:"
-      height: 20
-    }
-    TimeSelector{
-      height: 100
-      width: parent.width
-    }
-    Text {
-      text: "DATE:"
-      height: 20
-    }
-    DateSelector{
-      height: 100
-      width: parent.width
-    }
     Btn {
       text: "SEARCH"
+      width: 100
+      height: 40
       onClicked: { controller.search() }
+    }
+    Row {
+      width: parent.width
+      height: 400
+      Column {
+        height: parent.height
+        width: parent.width * 0.45
+        Text {
+          id: fromLabel
+          text: "FROM:"
+          height: 20
+        }
+        StationSelector{
+          fieldName: "from"
+          height: parent.height - fromLabel.height
+          width: parent.width
+        }
+      }
+      Column {
+        height: parent.height
+        width: parent.width * 0.45
+        Text {
+          id: toLabel
+          text: "TO:"
+          height: 20
+        }
+        StationSelector{
+          fieldName: "to"
+          height: parent.height - toLabel.height
+          width: parent.width
+        }
+      }
+    }
+    Row{
+      height: 150
+      width: parent.width
+      Column {
+        height: parent.height
+        width: parent.width * 0.40
+        Text {
+          id: timeLabel
+          text: "TIME:"
+          height: 20
+        }
+        TimeSelector{
+          height: parent.height - timeLabel.height
+          width: parent.width
+        }
+      }
+      Column {
+        height: parent.height
+        width: parent.width * 0.60
+        Text {
+          id: dateLabel
+          text: "DATE:"
+          height: 20
+        }
+        DateSelector{
+          height: parent.height - dateLabel.height
+          width: parent.width
+        }
+      }
     }
   }
 }
