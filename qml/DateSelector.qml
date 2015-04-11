@@ -40,7 +40,8 @@ Rectangle {
           anchors.fill: parent
           onClicked: {
             curDate = model.date
-            controller.dateSelected(model.date, displayLabel)
+            controller.dateSelected(model.date)
+            displayLabel.updateText()
           }
         }
       }

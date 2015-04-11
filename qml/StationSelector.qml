@@ -36,7 +36,8 @@ Rectangle {
           anchors.fill: parent
           onClicked: {
             curStationId = model.station.StationId
-            controller.stationSelected(fieldName, model.station, displayLabel)
+            controller.stationSelected(fieldName, model.station.StationId)
+            displayLabel.updateText()
           }
         }
       }

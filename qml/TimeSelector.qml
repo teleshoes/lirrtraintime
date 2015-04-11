@@ -61,7 +61,8 @@ Rectangle {
           anchors.fill: parent
           onClicked: {
             curTime = model.time
-            controller.timeSelected(model.time, displayLabel)
+            controller.timeSelected(model.time)
+            displayLabel.updateText()
           }
         }
       }
