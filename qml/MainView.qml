@@ -60,7 +60,7 @@ Rectangle {
       }
     }
     Row{
-      height: 150
+      height: 250
       width: parent.width
       Column {
         height: parent.height

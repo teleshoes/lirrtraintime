@@ -21,7 +21,7 @@ Rectangle {
     }
     delegate: Component  {
       Rectangle {
-        height: 30
+        height: 40
         width: parent.width
         border.width: 2
         Rectangle {
@@ -33,6 +33,7 @@ Rectangle {
             text: model.date
             height: parent.height
             width: parent.width
+            font.pointSize: 24
           }
         }
         MouseArea{
