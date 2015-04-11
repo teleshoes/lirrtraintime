@@ -235,12 +235,12 @@ class Controller(QObject):
   def setupStations(self):
     self.stationModel.setItems(self.stationManager.getStations())
 
-  @Slot(str, QObject)
-  def stationSelected(self, fieldName, station):
+  @Slot(str, str)
+  def stationSelected(self, fieldName, stationId):
     if fieldName == "from":
-      self.curFrom = station.StationId
+      self.curFrom = stationId
     elif fieldName == "to":
-      self.curTo = station.StationId
+      self.curTo = stationId
 
   @Slot(str)
   def timeSelected(self, time):
