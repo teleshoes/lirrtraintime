@@ -70,16 +70,149 @@ def main():
 
 class StationManager(QObject):
   def __init__(self):
-    self.stations = {'CPG': 'Copiague'}
-  def getStations():
-    for name in self.stations.keys():
-      return Station(name, self.stations[name])
+    self.stations = { 'ABT': 'Albertson'
+                    , 'ADL': 'Auburndale'
+                    , 'AGT': 'Amagansett'
+                    , 'ATL': 'Flatbush Avenue'
+                    , 'AVL': 'Amityville'
+                    , 'BDY': 'Broadway'
+                    , 'BHN': 'Bridgehampton'
+                    , 'BK': 'Stony Brook'
+                    , 'BMR': 'Bellmore'
+                    , 'BPG': 'Bethpage'
+                    , 'BPT': 'Bellport'
+                    , 'BRS': 'Bellerose'
+                    , 'BRT': 'Belmont Race Track'
+                    , 'BSD': 'Bayside'
+                    , 'BSR': 'Bay Shore'
+                    , 'BTA': 'Babylon'
+                    , 'BWD': 'Brentwood'
+                    , 'BWN': 'Baldwin'
+                    , 'CAV': 'Centre Avenue'
+                    , 'CHT': 'Cedarhurst'
+                    , 'CI': 'Central Islip'
+                    , 'CLP': 'Country Life Press'
+                    , 'CPG': 'Copiague'
+                    , 'CPL': 'Carle Place'
+                    , 'CSH': 'Cold Spring Harbor'
+                    , 'DGL': 'Douglaston'
+                    , 'DPK': 'Deer Park'
+                    , 'EHN': 'East Hampton'
+                    , 'ENY': 'East New York'
+                    , 'ERY': 'East Rockaway'
+                    , 'EWN': 'East Williston'
+                    , 'FHL': 'Forest Hills'
+                    , 'FLS': 'Flushing'
+                    , 'FMD': 'Farmingdale'
+                    , 'FPK': 'Floral Park'
+                    , 'FPT': 'Freeport'
+                    , 'FRY': 'Far Rockaway'
+                    , 'GBN': 'Gibson'
+                    , 'GCV': 'Glen Cove'
+                    , 'GCY': 'Garden City'
+                    , 'GHD': 'Glen Head'
+                    , 'GNK': 'Great Neck'
+                    , 'GPT': 'Greenport'
+                    , 'GRV': 'Great River'
+                    , 'GST': 'Glen Street'
+                    , 'GVL': 'Greenvale'
+                    , 'GWN': 'Greenlawn'
+                    , 'HBY': 'Hampton Bays'
+                    , 'HEM': 'Hempstead'
+                    , 'HGN': 'Hempstead Gardens'
+                    , 'HOL': 'Hollis'
+                    , 'HPA': 'Hunterspoint Ave.'
+                    , 'HUN': 'Huntington'
+                    , 'HVL': 'Hicksville'
+                    , 'HWT': 'Hewlett'
+                    , 'IPK': 'Island Park'
+                    , 'ISP': 'Islip'
+                    , 'IWD': 'Inwood'
+                    , 'JAM': 'Jamaica'
+                    , 'KGN': 'Kew Gardens'
+                    , 'KPK': 'Kings Park'
+                    , 'LBH': 'Long Beach'
+                    , 'LCE': 'Lawrence'
+                    , 'LHT': 'Lindenhurst'
+                    , 'LIC': 'Long Island City'
+                    , 'LMR': 'Locust Manor'
+                    , 'LNK': 'Little Neck'
+                    , 'LTN': 'Laurelton'
+                    , 'LVL': 'Locust Valley'
+                    , 'LVW': 'Lakeview'
+                    , 'LYN': 'Lynbrook'
+                    , 'MAK': 'Mattituck'
+                    , 'MAV': 'Merillon Avenue'
+                    , 'MFD': 'Medford'
+                    , 'MHL': 'Murray Hill'
+                    , 'MHT': 'Manhasset'
+                    , 'MIN': 'Mineola'
+                    , 'MPK': 'Massapequa Park'
+                    , 'MQA': 'Massapequa'
+                    , 'MRK': 'Merrick'
+                    , 'MSY': 'Mastic Shirley'
+                    , 'MTK': 'Montauk'
+                    , 'MVN': 'Malverne'
+                    , 'NAV': 'Nostrand Ave.'
+                    , 'NBD': 'Nassau Blvd'
+                    , 'NHP': 'New Hyde Park'
+                    , 'NPT': 'Northport'
+                    , 'NYK': 'Penn Station'
+                    , 'OBY': 'Oyster Bay'
+                    , 'ODE': 'Oceanside'
+                    , 'ODL': 'Oakdale'
+                    , 'PD': 'Patchogue'
+                    , 'PDM': 'Plandome'
+                    , 'PJN': 'Port Jefferson'
+                    , 'PLN': 'Pinelawn'
+                    , 'PWS': 'Port Washington'
+                    , 'QVG': 'Queens Village'
+                    , 'RHD': 'Riverhead'
+                    , 'RON': 'Ronkonkoma'
+                    , 'ROS': 'Rosedale'
+                    , 'RSN': 'Roslyn'
+                    , 'RVC': 'Rockville Centre'
+                    , 'SAB': 'St. Albans'
+                    , 'SCF': 'Sea Cliff'
+                    , 'SFD': 'Seaford'
+                    , 'SHD': 'Southold'
+                    , 'SHN': 'Southampton'
+                    , 'SJM': 'St. James'
+                    , 'SMR': 'Stewart Manor'
+                    , 'SPK': 'Speonk'
+                    , 'SSM': 'Mets-Willets Point'
+                    , 'STN': 'Smithtown'
+                    , 'SVL': 'Sayville'
+                    , 'SYT': 'Syosset'
+                    , 'VSM': 'Valley Stream'
+                    , 'WBY': 'Westbury'
+                    , 'WDD': 'Woodside'
+                    , 'WGH': 'Wantagh'
+                    , 'WHD': 'West Hempstead'
+                    , 'WHN': 'Westhampton'
+                    , 'WMR': 'Woodmere'
+                    , 'WWD': 'Westwood'
+                    , 'WYD': 'Wyandanch'
+                    , 'YPK': 'Yaphank'
+                    }
+  def getStations(self):
+    stationList = []
+    names = self.stations.keys()
+    names.sort()
+    for name in names:
+      stationList.append(Station(name, self.stations[name]))
+    return stationList
 
 class Controller(QObject):
   def __init__(self, stationManager, stationModel):
     QObject.__init__(self)
     self.stationManager = stationManager
     self.stationModel = stationModel
+    self.setupStations()
+    self.curTo = None
+    self.curFrom = None
+    self.curDate = None
+    self.curTime = None
 
   @Slot('QVariantList')
   def runCommand(self, cmdArr):
@@ -95,6 +228,43 @@ class Controller(QObject):
   @Slot()
   def setupStations(self):
     self.stationModel.setItems(self.stationManager.getStations())
+
+  @Slot(str, QObject, QObject)
+  def stationSelected(self, fieldName, station, displayLabel):
+    if fieldName == "from":
+      self.curFrom = station.StationId
+    elif fieldName == "to":
+      self.curTo = station.StationId
+    self.setLabelText(displayLabel)
+
+  @Slot(str, QObject)
+  def timeSelected(self, time, displayLabel):
+    self.curTime = time
+    if self.curDate == None:
+      self.curDate = "next"
+    self.setLabelText(displayLabel)
+
+  @Slot(str, QObject)
+  def dateSelected(self, date, displayLabel):
+    self.curDate = date
+    self.setLabelText(displayLabel)
+
+  @Slot()
+  def search(self):
+    cmd = ["lirr_train_time", "-b", self.curTo, self.curFrom]
+    if self.curDate != None:
+      cmd += self.curDate
+      cmd += self.curTime
+    self.runCommand(cmd)
+
+  def setLabelText(self, displayLabel):
+    displayLabel.setText(""
+      + "  To: " + str(self.curTo)
+      + "  From: " + str(self.curFrom)
+      + "\n"
+      + "  Date: " + str(self.curDate)
+      + "  Time: " + str(self.curTime)
+    )
 
 class BaseListModel(QAbstractListModel):
   def __init__(self):
@@ -134,7 +304,7 @@ class StationModel(BaseListModel):
     BaseListModel.__init__(self)
     self.setRoleNames(dict(enumerate(StationModel.COLUMNS)))
 
-class Account(QObject):
+class Station(QObject):
   def __init__(self, stationId_, name_):
     QObject.__init__(self)
     self.stationId_ = stationId_

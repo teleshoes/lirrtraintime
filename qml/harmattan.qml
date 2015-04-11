@@ -3,6 +3,7 @@ import com.nokia.meego 1.1
 
 PageStackWindow {
   id: main
+  initialPage: mainPage
 
   // ACCOUNT PAGE
   Page {
@@ -10,7 +11,7 @@ PageStackWindow {
     objectName: "mainPage"
     anchors.margins: 30
 
-    Text{ text: "apples" }
+    MainView{}
   }
 
   // HACK TO HIDE KEYBOARD
