@@ -266,8 +266,9 @@ class Controller(QObject):
       cmd.append(time)
     self.runCommand(cmd)
 
-  def setLabelText(self, displayLabel):
-    displayLabel.setText(""
+  @Slot(result=str)
+  def formatLabelText(self):
+    return (""
       + "  From: " + str(self.curFrom)
       + "  To: " + str(self.curTo)
       + "\n"
