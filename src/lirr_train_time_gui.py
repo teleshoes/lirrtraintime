@@ -267,8 +267,8 @@ class Controller(QObject):
 
   def setLabelText(self, displayLabel):
     displayLabel.setText(""
-      + "  To: " + str(self.curTo)
       + "  From: " + str(self.curFrom)
+      + "  To: " + str(self.curTo)
       + "\n"
       + "  Date: " + str(self.curDate)
       + "  Time: " + str(self.curTime)
