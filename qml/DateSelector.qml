@@ -14,6 +14,7 @@ Rectangle {
     width: parent.width
     height: parent.height
     model: ListModel {
+      ListElement { date: "none" }
       ListElement { date: "today" }
       ListElement { date: "tomorrow" }
       ListElement { date: "next" }

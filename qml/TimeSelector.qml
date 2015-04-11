@@ -14,6 +14,7 @@ Rectangle {
     width: parent.width
     height: parent.height
     model: ListModel {
+      ListElement { time: "none" }
       ListElement { time: "00:00" }
       ListElement { time: "01:00" }
       ListElement { time: "02:00" }
