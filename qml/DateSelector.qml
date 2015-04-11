@@ -5,6 +5,8 @@ Rectangle {
   height: parent.height
   clip: true
 
+  property variant curDate: "none"
+
   ListView {
     id: dateSelector
     flickableDirection: Flickable.VerticalFlick
@@ -24,7 +26,8 @@ Rectangle {
         Rectangle {
           anchors.fill: parent
           anchors.margins: 2
-          color: "gray"
+          property bool selected: model.date == curDate
+          color: selected ? mainView.selectedColor : mainView.normalColor
           Text {
             text: model.date
             height: parent.height
@@ -34,6 +37,7 @@ Rectangle {
         MouseArea{
           anchors.fill: parent
           onClicked: {
+            curDate = model.date
             controller.dateSelected(model.date, displayLabel)
           }
         }

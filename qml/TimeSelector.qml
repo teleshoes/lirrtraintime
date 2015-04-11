@@ -5,6 +5,8 @@ Rectangle {
   height: parent.height
   clip: true
 
+  property variant curTime: "none"
+
   ListView {
     id: timeSelector
     flickableDirection: Flickable.VerticalFlick
@@ -45,7 +47,8 @@ Rectangle {
         Rectangle {
           anchors.fill: parent
           anchors.margins: 2
-          color: "gray"
+          property bool selected: model.time == curTime
+          color: selected ? mainView.selectedColor : mainView.normalColor
           Text {
             text: model.time
             height: parent.height
@@ -55,6 +58,7 @@ Rectangle {
         MouseArea{
           anchors.fill: parent
           onClicked: {
+            curTime = model.time
             controller.timeSelected(model.time, displayLabel)
           }
         }

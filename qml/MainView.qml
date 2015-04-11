@@ -1,9 +1,13 @@
 import QtQuick 1.1
 
 Rectangle {
+  id: mainView
   anchors.fill: parent
   width: parent.width
   height: parent.height
+
+  property string normalColor: "#aaaaaa"
+  property string selectedColor: "#dddddd"
 
   Column{
     id: mainColumn

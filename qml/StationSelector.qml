@@ -6,6 +6,7 @@ Rectangle {
   clip: true
 
   property variant fieldName
+  property variant curStationId
 
   ListView {
     id: stationSelector
@@ -22,7 +23,8 @@ Rectangle {
         Rectangle {
           anchors.fill: parent
           anchors.margins: 2
-          color: "gray"
+          property bool selected: model.station.StationId == curStationId
+          color: selected ? mainView.selectedColor : mainView.normalColor
           Text {
             text: model.station.Name + " (" + model.station.StationId + ")"
             height: parent.height
@@ -32,6 +34,7 @@ Rectangle {
         MouseArea{
           anchors.fill: parent
           onClicked: {
+            curStationId = model.station.StationId
             controller.stationSelected(fieldName, model.station, displayLabel)
           }
         }
