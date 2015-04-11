@@ -50,6 +50,5 @@ Rectangle {
 
   ScrollBar {
     flickable: dateSelector
-    anchors.rightMargin: -30
   }
 }

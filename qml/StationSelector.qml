@@ -46,6 +46,5 @@ Rectangle {
 
   ScrollBar {
     flickable: stationSelector
-    anchors.rightMargin: -30
   }
 }
