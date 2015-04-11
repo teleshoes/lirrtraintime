@@ -14,13 +14,12 @@ Rectangle {
     height: parent.height
     width: parent.width
     Text{
-      function setText(newText){
-        text = newText
+      function updateText(){
+        text = controller.formatLabelText()
       }
       id: displayLabel
       height: 60
       font.pointSize: 18
-      text: "<select to/from>"
     }
     Btn {
       text: "SEARCH"
