@@ -1,0 +1,3 @@
+set -x
+scp qml/* root@`n9`:/opt/lirrtraintime/qml
+scp src/* root@`n9`:/opt/lirrtraintime/bin

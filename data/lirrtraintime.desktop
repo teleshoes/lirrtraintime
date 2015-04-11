@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=lirrtraintime
+Icon=/opt/lirrtraintime/icons/lirrtraintime.png
+Exec=python /opt/lirrtraintime/bin/lirrtraintime-gui.py

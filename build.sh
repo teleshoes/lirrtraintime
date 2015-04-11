@@ -1,6 +1,6 @@
 dpkg-buildpackage
-mv ../qtemail_* .
-rm qtemail_*.changes
-rm qtemail_*.dsc
-rm qtemail_*.tar.gz
+mv ../lirrtraintime_* .
+rm lirrtraintime_*.changes
+rm lirrtraintime_*.dsc
+rm lirrtraintime_*.tar.gz
 rm -r obj-*
