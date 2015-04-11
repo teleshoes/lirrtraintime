@@ -201,7 +201,7 @@ sub getScheduleText($$$$$){
 
   my $msg;
   if(defined $date){
-    my $now = `date`;
+    my $now = `date +'%Y-%m-%d %I:%M %p'`;
     chomp $now;
     my $then = "$y-$m-$d $hr:$min $ampm";
     $msg = "$from=>$to for: $then\n  {now: $now}\n";
