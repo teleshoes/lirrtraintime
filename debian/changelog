@@ -1,3 +1,9 @@
+lirrtraintime (0.0.2) UNRELEASED; urgency=low
+  * fix many bugs
+  * add qtbigtext dependency
+  * style update
+ -- teleshoes <elliot.wolk@gmail.com>  Sat, 11 Apr 2015 18:01:09 -0400
+
 lirrtraintime (0.0.1) UNRELEASED; urgency=low
   * Initial release.
  -- teleshoes <elliot.wolk@gmail.com>  Sat, 11 Apr 2015 04:38:32 -0400
