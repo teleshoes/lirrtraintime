@@ -1,0 +1,11 @@
+Source: qtemail
+Section: user/utilities
+Priority: optional
+Maintainer: teleshoes <elliot.wolk@gmail.com>
+Standards-Version: 3.8.4
+
+Package: qtemail
+Architecture: all
+Depends: python-pyside, libmail-imapclient-perl, libio-socket-ssl-perl, libtimedate-perl, libmime-lite-perl, libmime-tools-perl
+Description: QT Email
+  Simple CLI+QT email client

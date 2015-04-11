@@ -1,0 +1,80 @@
+qtemail (1.0.0) UNRELEASED; urgency=low
+  * Copy body text to clipboard
+  * Word-wrap email bodies
+  * Use one icon set in both desktop UI and harmattan UI
+  * Add explicit zoom buttons in addition to pinch
+  * Add header to body view
+  * Add preferHtml config
+  * CLI: --cache-all-bodies, improve body caching output
+ -- teleshoes <elliot.wolk@gmail.com>  Sun, 22 Mar 2015 13:25:46 -0400
+
+qtemail (0.1.1) UNRELEASED; urgency=low
+  * Config 'new_unread_cmd' for per-account alerts
+  * Config 'skip' config to ignore an account during --update
+  * Add non-account-specific options config
+  * Config 'encrypt_cmd'/'decrypt_cmd' for password storage
+  * Config 'update_cmd' for actively updating displays
+  * Show success/failure when saving config
+  * Fail on saving empty required config options
+  * Do not re-order config options when saving
+  * Add status-line file for passively updating displays
+  * Only auto-cache the bodies of 100 most recent unread emails
+ -- teleshoes <elliot.wolk@gmail.com>  Tue, 17 Mar 2015 00:10:01 -0400
+
+qtemail (0.1.0) UNRELEASED; urgency=low
+  * Add a file-browser for selecting attachments in send
+  * Fix smtp-cli path location
+  * Use /var/tmp instead of /tmp
+  * Improve config view, add descriptions
+ -- teleshoes <elliot.wolk@gmail.com>  Fri, 22 Feb 2015 04:28:15 -0500
+
+qtemail (0.0.9) UNRELEASED; urgency=low
+  * Add Ignoresizeerrors to fix certain stupid IMAP servers
+  * Fix error where no configured accounts breaks harmattan UI
+  * Add desktop launcher and icon
+  * Move QML, images, and executables to /opt/qtemail
+ -- teleshoes <elliot.wolk@gmail.com>  Fri, 20 Feb 2015 15:53:15 -0500
+
+qtemail (0.0.8) UNRELEASED; urgency=low
+  * Add reply/forward
+  * Fix send UI subject/body
+ -- teleshoes <elliot.wolk@gmail.com>  Wed, 11 Feb 2015 12:43:12 -0500
+
+qtemail (0.0.7) UNRELEASED; urgency=low
+  * Send mail GUI
+  * Scrollbars in lists
+  * Pagination email counter
+  * Add buttons to grab 30% more emails or all emails
+  * Bugfixes, style tweaks
+ -- teleshoes <elliot.wolk@gmail.com>  Tue, 10 Feb 2015 00:59:42 -0500
+
+qtemail (0.0.6) UNRELEASED; urgency=low
+  * Display attachment names in body
+  * Add button to download attachments
+  * Make body URLs clickable
+ -- teleshoes <elliot.wolk@gmail.com>  Sat, 07 Feb 2015 21:54:56 -0500
+
+qtemail (0.0.5) UNRELEASED; urgency=low
+  * Email searchbox filter
+  * Command line options for email-gui
+ -- teleshoes <elliot.wolk@gmail.com>  Sat, 07 Feb 2015 00:26:16 -0500
+
+qtemail (0.0.4) UNRELEASED; urgency=low
+  * Display command output in GUI
+  * Large style tweaks
+  * Button updates
+  * Bug fixes
+ -- teleshoes <elliot.wolk@gmail.com>  Thu, 05 Feb 2015 23:32:28 -0500
+
+qtemail (0.0.3) UNRELEASED; urgency=low
+  * Add simple account config UI
+  * Harmattan style tweaks
+ -- teleshoes <elliot.wolk@gmail.com>  Thu, 05 Feb 2015 20:32:28 -0500
+
+qtemail (0.0.2) UNRELEASED; urgency=low
+  * Fix dependencies
+ -- teleshoes <elliot.wolk@gmail.com>  Wed, 04 Feb 2015 17:35:46 -0500
+
+qtemail (0.0.1) UNRELEASED; urgency=low
+  * Initial release.
+ -- teleshoes <elliot.wolk@gmail.com>  Wed, 04 Feb 2015 14:34:32 -0500
