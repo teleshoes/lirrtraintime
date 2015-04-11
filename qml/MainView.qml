@@ -18,7 +18,8 @@ Rectangle {
         text = newText
       }
       id: displayLabel
-      height: 50
+      height: 60
+      font.pointSize: 18
       text: "<select to/from>"
     }
     Btn {
@@ -37,7 +38,8 @@ Rectangle {
         Text {
           id: fromLabel
           text: "FROM:"
-          height: 20
+          height: 30
+          font.pointSize: 18
         }
         StationSelector{
           fieldName: "from"
@@ -51,7 +53,8 @@ Rectangle {
         Text {
           id: toLabel
           text: "TO:"
-          height: 20
+          height: 30
+          font.pointSize: 18
         }
         StationSelector{
           fieldName: "to"
@@ -70,7 +73,8 @@ Rectangle {
         Text {
           id: timeLabel
           text: "TIME:"
-          height: 20
+          height: 30
+          font.pointSize: 18
         }
         TimeSelector{
           height: parent.height - timeLabel.height
@@ -83,7 +87,8 @@ Rectangle {
         Text {
           id: dateLabel
           text: "DATE:"
-          height: 20
+          height: 30
+          font.pointSize: 18
         }
         DateSelector{
           height: parent.height - dateLabel.height
