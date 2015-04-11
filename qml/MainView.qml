@@ -30,9 +30,10 @@ Rectangle {
     Row {
       width: parent.width
       height: 400
+      spacing: 10
       Column {
         height: parent.height
-        width: parent.width * 0.45
+        width: (parent.width - parent.spacing) * 0.50
         Text {
           id: fromLabel
           text: "FROM:"
@@ -46,7 +47,7 @@ Rectangle {
       }
       Column {
         height: parent.height
-        width: parent.width * 0.45
+        width: (parent.width - parent.spacing) * 0.50
         Text {
           id: toLabel
           text: "TO:"
@@ -62,9 +63,10 @@ Rectangle {
     Row{
       height: 250
       width: parent.width
+      spacing: 10
       Column {
         height: parent.height
-        width: parent.width * 0.40
+        width: (parent.width - parent.spacing) * 0.50
         Text {
           id: timeLabel
           text: "TIME:"
@@ -77,7 +79,7 @@ Rectangle {
       }
       Column {
         height: parent.height
-        width: parent.width * 0.60
+        width: (parent.width - parent.spacing) * 0.50
         Text {
           id: dateLabel
           text: "DATE:"
