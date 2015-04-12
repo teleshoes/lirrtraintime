@@ -15,14 +15,6 @@ Rectangle {
     height: parent.height
     model: ListModel {
       ListElement { time: "none"; display: "" }
-      ListElement { time: "00:00"; display: " (midnight)"}
-      ListElement { time: "01:00"; display: " (1am)"}
-      ListElement { time: "02:00"; display: " (2am)"}
-      ListElement { time: "03:00"; display: " (3am)"}
-      ListElement { time: "04:00"; display: " (4am)"}
-      ListElement { time: "05:00"; display: " (5am)"}
-      ListElement { time: "06:00"; display: " (6am)"}
-      ListElement { time: "07:00"; display: " (7am)"}
       ListElement { time: "08:00"; display: " (8am)"}
       ListElement { time: "09:00"; display: " (9am)"}
       ListElement { time: "10:00"; display: " (10am)"}
@@ -39,6 +31,14 @@ Rectangle {
       ListElement { time: "21:00"; display: " (9pm)"}
       ListElement { time: "22:00"; display: " (10pm)"}
       ListElement { time: "23:00"; display: " (11pm)"}
+      ListElement { time: "00:00"; display: " (midnight)"}
+      ListElement { time: "01:00"; display: " (1am)"}
+      ListElement { time: "02:00"; display: " (2am)"}
+      ListElement { time: "03:00"; display: " (3am)"}
+      ListElement { time: "04:00"; display: " (4am)"}
+      ListElement { time: "05:00"; display: " (5am)"}
+      ListElement { time: "06:00"; display: " (6am)"}
+      ListElement { time: "07:00"; display: " (7am)"}
     }
     delegate: Component  {
       Rectangle {
