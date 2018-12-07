@@ -1,4 +1,4 @@
-import QtQuick 1.1
+import QtQuick 2.3
 
 // written by Thomas BOUTROUE
 // https://stackoverflow.com/users/1195141/thebootroo

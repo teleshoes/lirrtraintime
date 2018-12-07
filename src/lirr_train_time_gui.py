@@ -1,14 +1,15 @@
 #!/usr/bin/python
 #qtbtn.py
-#Copyright 2012,2015 Elliot Wolk
+#Copyright 2012,2015,2018 Elliot Wolk
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-from PySide.QtGui import *
-from PySide.QtCore import *
-from PySide.QtDeclarative import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtQuick import *
+from PyQt5.QtWidgets import *
 
 import os
 import os.path
@@ -62,9 +63,9 @@ def main():
   app = QApplication([])
   widget = MainWindow(qmlFile, controller, stationModel)
   if platform == PLATFORM_HARMATTAN:
-    widget.window().showFullScreen()
+    widget.showFullScreen()
   else:
-    widget.window().show()
+    widget.show()
 
   app.exec_()
 
@@ -220,41 +221,41 @@ class Controller(QObject):
     self.curDate = None
     self.curTime = None
 
-  @Slot('QVariantList')
+  @pyqtSlot('QVariantList')
   def runCommand(self, cmdArr):
     subprocess.Popen(cmdArr)
-  @Slot(str)
+  @pyqtSlot(str)
   def shellCommand(self, cmdStr):
     subprocess.Popen(['sh', '-c', cmdStr])
 
-  @Slot(QObject, str, result=QObject)
+  @pyqtSlot(QObject, str, result=QObject)
   def findChild(self, obj, name):
     return obj.findChild(QObject, name)
 
-  @Slot()
+  @pyqtSlot()
   def setupStations(self):
     self.stationModel.setItems(self.stationManager.getStations())
 
-  @Slot(str, str)
+  @pyqtSlot(str, str)
   def stationSelected(self, fieldName, stationId):
     if fieldName == "from":
       self.curFrom = stationId
     elif fieldName == "to":
       self.curTo = stationId
 
-  @Slot(str)
+  @pyqtSlot(str)
   def timeSelected(self, time):
     self.curTime = time
     if self.curTime == "none":
       self.curTime = None
 
-  @Slot(str)
+  @pyqtSlot(str)
   def dateSelected(self, date):
     self.curDate = date
     if self.curDate == "none":
       self.curDate = None
 
-  @Slot()
+  @pyqtSlot()
   def search(self):
     cmd = [LIRRTRAINTIME_BIN, "-b", self.curFrom, self.curTo]
     time = self.curTime
@@ -266,7 +267,7 @@ class Controller(QObject):
       cmd.append(time)
     self.runCommand(cmd)
 
-  @Slot(result=str)
+  @pyqtSlot(result=str)
   def formatLabelText(self):
     return (""
       + "  From: " + str(self.curFrom)
@@ -312,7 +313,8 @@ class StationModel(BaseListModel):
   COLUMNS = ('station',)
   def __init__(self):
     BaseListModel.__init__(self)
-    self.setRoleNames(dict(enumerate(StationModel.COLUMNS)))
+  def roleNames(self):
+    return dict(enumerate(StationModel.COLUMNS))
 
 class Station(QObject):
   def __init__(self, stationId_, name_):
@@ -323,19 +325,19 @@ class Station(QObject):
     return self.stationId_
   def Name(self):
     return self.name_
-  changed = Signal()
-  StationId = Property(unicode, StationId, notify=changed)
-  Name = Property(unicode, Name, notify=changed)
+  changed = pyqtSignal()
+  StationId = pyqtProperty(unicode, StationId, notify=changed)
+  Name = pyqtProperty(unicode, Name, notify=changed)
 
-class MainWindow(QDeclarativeView):
+class MainWindow(QQuickView):
   def __init__(self, qmlFile, controller, stationModel):
     super(MainWindow, self).__init__(None)
     context = self.rootContext()
     context.setContextProperty('stationModel', stationModel)
     context.setContextProperty('controller', controller)
 
-    self.setResizeMode(QDeclarativeView.SizeRootObjectToView)
-    self.setSource(qmlFile)
+    self.setResizeMode(QQuickView.SizeRootObjectToView)
+    self.setSource(QUrl(qmlFile))
 
 if __name__ == "__main__":
   sys.exit(main())
