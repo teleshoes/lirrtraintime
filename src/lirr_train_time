@@ -116,6 +116,8 @@ sub main(@){
     my $pid = fork;
     if($pid == 0){
       $schedule = getScheduleText($from, $to, $date, $time, $file);
+      my $sep = "\n" . ("-"x30) . "\n";
+      print $sep . $schedule . $sep;
 
       system "bigtext", "--ensure-dbus";
       system "bigtext", $schedule;
