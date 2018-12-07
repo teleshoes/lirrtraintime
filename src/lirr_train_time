@@ -115,14 +115,15 @@ sub main(@){
     my $schedule;
     my $pid = fork;
     if($pid == 0){
-      system "bigtext", "-k";
-      exec "bigtext", "--lineSeparator=true", "loading";
-    }else{
       $schedule = getScheduleText($from, $to, $date, $time, $file);
-      waitpid $pid, 0;
-    }
 
-    system "bigtext", $schedule;
+      system "bigtext", "--ensure-dbus";
+      system "bigtext", $schedule;
+      exit 0;
+    }else{
+      system "bigtext", "-k";
+      exec "bigtext", "--lineSeparator=true", "--wait", "loading";
+    }
   }else{
     my $schedule = getScheduleText $from, $to, $date, $time, $file;
     my $sep = "\n" . ("-"x30) . "\n";
