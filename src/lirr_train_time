@@ -208,6 +208,9 @@ sub getScheduleText($$$$$){
   }else{
     $msg = "$from=>$to\n";
   }
+  if($isCached){
+    $msg = "!OUTDATED!\n$msg";
+  }
   $schedule = "$msg$schedule";
 
   return $schedule;
