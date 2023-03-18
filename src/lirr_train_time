@@ -1,13 +1,15 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use JSON;
+use Time::HiRes qw(time);
 
 sub getScheduleText($$$$$);
 sub getLatestCache($$);
 sub checkInternet();
-sub parseTrains($);
-sub formatTrain($);
+sub formatTrip($);
 sub getStations();
+sub nowMillis();
 sub run(@);
 
 my $stations = getStations();
@@ -20,8 +22,13 @@ my $synonyms = {
 };
 
 my $cacheDir = "$ENV{HOME}/.cache/lirr_train_time";
-my $baseUrl = "http://traintime.lirr.org";
+my $baseUrl = "https://backend-unified.mylirr.org/plan";
 my $okStations = join '', map {  "$_ => $$stations{$_}\n"} sort keys %$stations;
+
+my @HEADERS = (
+  "-H", "Accept-Encoding: gzip",
+  "-H", "accept-version: 3.0",
+);
 
 my $usage = "
   Usage: $0 [OPTS] FROM TO [DATE TIME]
@@ -138,6 +145,7 @@ sub getScheduleText($$$$$){
 
   my ($y, $m, $d, $hr, $min, $ampm);
 
+  my $millis;
   if(defined $date or defined $time){
     if($date !~ /^(\d{4})(\d{2})(\d{2})$/){
       die "Invalid date: $date\n";
@@ -148,16 +156,12 @@ sub getScheduleText($$$$$){
       die "Invalid time: $time\n";
     }
     ($hr, $min) = ($1, $2);
-    die "Invalid time: $time\n" if $hr >= 24 or $min >= 60;
 
-    if($hr >= 12){
-      $ampm = "PM";
-      $hr -= 12;
-      $hr = "0$hr" if $hr < 10;
-    }else{
-      $ampm = "AM";
-    }
-    $hr = "12" if $hr == 0;
+    my $epoch = `date --date='${y}-${m}-${d}T${hr}:${min}' +%s`;
+    chomp $epoch;
+    $millis = "${epoch}000";
+  }else{
+    $millis = nowMillis();
   }
 
   my $fileName;
@@ -165,15 +169,17 @@ sub getScheduleText($$$$$){
   if(defined $file){
     $fileName = $file;
   }else{
-    my $url = "$baseUrl/traintime.php?startsta=$from&endsta=$to";
-    $url .= "\&RequestDate=$m\%2F$d\%2F$y" if defined $date;
-    $url .= "\&RequestTime=$hr\%3A$min\&RequestAMPM=$ampm" if defined $time;
+    my $url = "$baseUrl?from=$from&to=$to&fares=ALL&time=$millis&arrive_by=false";
 
     run "mkdir", "-p", $cacheDir;
 
     if(checkInternet()){
-      $fileName = "$cacheDir/${from}_${to}_" . time . ".html";
-      run "wget", $url, "-O", $fileName;
+      $fileName = "$cacheDir/${from}_${to}_" . time . ".json";
+      run "curl", $url, @HEADERS, "-o", "$fileName.gz";
+      run "gunzip $fileName.gz";
+      if(not -e $fileName){
+        die "ERROR: gunzip of $fileName.gz failed\n";
+      }
     }else{
       $fileName = getLatestCache($from, $to);
       $isCached = 1;
@@ -182,18 +188,21 @@ sub getScheduleText($$$$$){
 
   my $schedule;
   if(defined $fileName and -f $fileName){
-    my $html = `cat $fileName`;
-    my @trains = parseTrains($html);
-
-    $schedule = join "\n", (map {formatTrain($_)} @trains);
-    if($schedule eq "" and $html =~ /no.*trains.*scheduled/i){
-      $schedule = "no trains";
-    }elsif($schedule eq ""){
+    my $json = `cat $fileName`;
+    my $obj = eval { from_json($json); };
+    if(defined $obj){
+      my @trips = @{$$obj{trips}};
+      if(@trips == 0){
+        $schedule = "no trains";
+      }else{
+        $schedule = join "\n", (map {formatTrip($_)} @trips);
+      }
+    }else{
       $schedule = "error";
     }
 
     if($isCached){
-      my $then = $1 if $fileName =~ /${from}_${to}_(\d+)\.html$/;
+      my $then = $1 if $fileName =~ /${from}_${to}_(\d+)\.json$/;
       my $thenFmt = `date --date=\@$then '+%F %I:%M:%S %p'`;
       chomp $thenFmt;
       $schedule = "as of $thenFmt\n\n$schedule";
@@ -206,7 +215,9 @@ sub getScheduleText($$$$$){
   if(defined $date){
     my $now = `date +'%Y-%m-%d %I:%M %p'`;
     chomp $now;
-    my $then = "$y-$m-$d $hr:$min $ampm";
+    my $epoch = int($millis/1000.0 + 0.5);
+    my $then = `date --date=\@$epoch +'%Y-%m-%d %I:%M %p'`;
+    chomp $then;
     $msg = "$from=>$to for: $then\n  {now: $now}\n";
   }else{
     $msg = "$from=>$to\n";
@@ -221,12 +232,12 @@ sub getScheduleText($$$$$){
 
 sub getLatestCache($$){
   my ($from, $to) = @_;
-  my @caches = `ls $cacheDir/${from}_${to}_*.html 2>/dev/null`;
+  my @caches = `ls $cacheDir/${from}_${to}_*.json 2>/dev/null`;
   my $latest = undef;
   my $latestCache = undef;
   for my $cache(@caches){
     chomp $cache;
-    if($cache =~ /${from}_${to}_(\d+)\.html$/){
+    if($cache =~ /${from}_${to}_(\d+)\.json$/){
       my $time = $1;
       if(not defined $latest or $latest < $time){
         $latest = $time;
@@ -246,86 +257,55 @@ sub checkInternet(){
   }
 }
 
-sub parseTrains($){
-  my $html = shift;
+sub formatTrip($){
+  my ($trip) = shift;
+  my $start = $$trip{trip_start};
+  my $end = $$trip{trip_end};
+  my @legs = @{$$trip{legs}};
+  my $firstLeg = $legs[0];
+  my @firstLegStops = @{$$firstLeg{train}{details}{stops}};
+  my $firstStop = $firstLegStops[0];
 
-  $html =~ s/%/<!PCT!>/g;
-  $html =~ s/<\s*td[^<>]*?\/>/%tdo%%tdc%/g;
-  $html =~ s/<\s*td[^<>]*>/%tdo%/g;
-  $html =~ s/<\s*\/\s*td[^<>]*>/%tdc%/g;
+  my $track;
+  my $signTrack = $$firstStop{sign_track};
+  my $avpsTrack = $$firstStop{avps_track};
+  my $trackPosted = $$firstStop{posted};
 
-  $html =~ s/<\s*tr[^<>]*?\/>/%tro%%trc%/g;
-  $html =~ s/<\s*tr[^<>]*>/%tro%/g;
-  $html =~ s/<\s*\/\s*tr[^<>]*>/%trc%/g;
-
-  my $stuff = "(?:(?:[^%]|\\n)*)";
-  my @trainRows = $html =~ /
-    %tro%
-    (?: $stuff %tdo% $stuff %tdc% $stuff){13}
-    %trc%
-  /gxsi;
-
-  my $time = "\\d+:\\d+[AP]M";
-
-  my @trains;
-  for my $trainRow(@trainRows){
-    if($trainRow =~ /^
-      $stuff %tro%
-      $stuff %tdo% ($time)                      %tdc% #depart time
-      $stuff %tdo%   $stuff                     %tdc% #  'to'
-      $stuff %tdo% ([a-zA-Z0-9\-_. \t]+)        %tdc% #for
-      $stuff %tdo% (\w+|--)?                    %tdc% #track
-      $stuff %tdo% ([a-zA-Z0-9\-_. \t]+)        %tdc% #status
-      $stuff %tdo% ((?:\*\w+(?:<br\/>)?)*)      %tdc% #xfer at
-      $stuff %tdo% ((?:$time(?:<br\/>)?)*)      %tdc% #xfer departs
-      $stuff %tdo%   $stuff                     %tdc% #  'to'
-      $stuff %tdo% ((?:\w+(?:<br\/>)?)*)        %tdc% #xfer to
-      $stuff %tdo% ($time)                      %tdc% #arrives time
-      $stuff %tdo% (\d+\ mins\.)                %tdc% #duration
-      $stuff %tdo% $stuff(Off\ Peak|Peak)$stuff %tdc% #peak
-      $stuff %tdo% ($stuff)                     %tdc% #info
-      $stuff %trc%
-    $/x){
-      push @trains, {
-        departs => $1,
-        for => $2,
-        track => $3,
-        status => $4,
-        xferAt => $5,
-        xferDeparts => $6,
-        xferArrives => $7,
-        arrives => $8,
-        duration => $9,
-        info => $10,
-      };
+  if(defined $signTrack or defined $avpsTrack){
+    if($signTrack eq $avpsTrack){
+      $track = $signTrack;
     }else{
-      print STDERR "malformed train: $trainRow\n";
+      $track = "$signTrack/$avpsTrack";
     }
+    if($trackPosted !~ /true/i){
+      $track .= "?";
+    }
+  }else{
+    $track = "   ";
   }
-  if(@trains == 0){
-    print STDERR "\n\nWARN: error parsing trains\n";
-  }
-  return @trains;
-}
 
-sub formatTrain($){
-  my $train = shift;
-  my $track = $$train{track};
-  $track = '' if not defined $track;
-  $track =~ s/\W+//g;
-  $track = "t$track" if $track =~ /\w+/;
-  my $status = $$train{status};
-  $status = '' if not defined $status;
-  $status =~ s/[^a-zA-Z0-9_\- ]+//g;
-  $status =~ s/on\s*time/OT/i;
-  $status =~ s/left\s*station/LEFT/i;
-  my $dur = $$train{duration};
-  $dur = "$1m" if $dur =~ /(\d+) min/;
-  my $xfers = $$train{xferAt};
-  $xfers =~ s/<[^<>]*>/ /g;
-  $xfers =~ s/\s+/ /g;
-  $xfers =~ s/\s*\*\s*/=>/g;
-  return "$$train{departs} $track $status $dur $xfers";
+  my $xfers = "";
+  for(my $i=1; $i<@legs; $i++){
+    my $leg = $legs[$i];
+    my $board = $$leg{board};
+    my $name = defined $$stations{$board} ? $$stations{$board} : $board;
+    $xfers .= "=>$name";
+  }
+
+  my $isPeak = $$trip{peak_code} =~ /A/i ? 1 : 0;
+
+  my @statusItems;
+  push @statusItems, "CANCELED" if $$firstLeg{train}{status}{canceled} =~ /true/i;
+  push @statusItems, "HELD" if $$firstLeg{train}{status}{held} =~ /true/i;
+  my $status = "@statusItems";
+
+  my $dur = $end - $start;
+  my $durFmt = int($dur/60 + 0.5) . "m";
+
+  my $startFmt = `date --date=\@$start +%I:%M%p`;
+  chomp $startFmt;
+
+  return "$startFmt $track $status $durFmt $xfers";
 }
 
 sub getStations(){
@@ -458,6 +438,10 @@ sub getStations(){
     WYD => "Wyandanch",
     YPK => "Yaphank",
   };
+}
+
+sub nowMillis(){
+  return int(time * 1000.0 + 0.5);
 }
 
 sub run(@){
