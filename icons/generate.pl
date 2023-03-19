@@ -39,6 +39,7 @@ sub main(@){
     "-pointsize", $fontPt,
     "-draw", "text $textTopX,$textTopY $top",
     "-draw", "text $textBotX,$textBotY $bot",
+    "-strip",
 
     $file,
   ;
