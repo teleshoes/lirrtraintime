@@ -348,6 +348,7 @@ sub getStations(){
     FLS => "Flushing",
     FHL => "Forest Hills",
     FPT => "Freeport",
+    GC  => "Grand Central",
     GCY => "Garden City",
     GBN => "Gibson",
     GCV => "Glen Cove",
